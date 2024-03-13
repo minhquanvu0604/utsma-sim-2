@@ -43,3 +43,14 @@ For information on the package design and usage guides see the [eufs_sim wiki](h
 - [eufs_tracks](./eufs_tracks/README.md) : track generator and resource files for the track.
 - [eufs_sensors](./eufs_sensors/README.md) : sensor mesh and urdf files.
 - [eufs_rqt](./eufs_rqt/README.md) : rqt GUI's for eufs_sim (currently mission control and robot steering).
+
+
+# Note
+eufs_msg - branch master
+ackermann_msg - branch ros2
+sudo apt install python3-rosdep2
+
+Set environment variables
+```
+echo 'export EUFS_MASTER=/home/quanvu/ros/utsma_ros2_ws/src/utsma-sim-2/' >> ~/.bashrc
+```
