@@ -34,14 +34,13 @@ services:
     environment:
       - DISPLAY=host.docker.internal:0
       - LIBGL_ALWAYS_SOFTWARE=1
-      - MESA_GL_VERSION_OVERRIDE=3.3
-      #- LIBGL_ALWAYS_INDIRECT=1
+      - QMLSCENE_DEVICE=softwarecontext
+      - LIBGL_ALWAYS_INDIRECT=1
       #- QT_X11_NO_MITSHM=1
+      - QT_QPA_EGLFS_DEBUG=1
       - QT_DEBUG_PLUGINS=1                          # For debugging
-    command: sudo -i bash -c 'apt-get install -y mesa-utils libgl1-mesa-glx  && rosdep install --from-paths . --ignore-src -r -y && colcon build --symlink-install && source install/setup.bash && ros2 launch eufs_launcher eufs_launcher.launch.py'
+    command: sudo -i bash -c 'export LIBGL_ALWAYS_INDIRECT=1 && export QMLSCENE_DEVICE=softwarecontext && export QT_QPA_EGLFS_DEBUG=1 && export QT_DEBUG_PLUGINS=1 && export DISPLAY=host.docker.internal:0 && export LIBGL_ALWAYS_SOFTWARE=1 && rosdep install --from-paths . --ignore-src -r -y && colcon build --symlink-install && source install/setup.bash && ros2 launch eufs_launcher eufs_launcher.launch.py'
     # May be able to run rosedep command outside of the container
-    
-    #  x11-apps
 
     # "ros2 launch eufs_launcher eufs_launcher.launch.py && ros2 launch utsma_gazebo simulation.launch"
 # Already added in container image on image build
