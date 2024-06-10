@@ -70,10 +70,16 @@ RUN apt-get update && \
       ros-humble-joint-state-publisher-gui \
       ros-humble-joint-state-publisher \
       python3-colcon-common-extensions \
-      ros-dev-tools \
-      mesa-utils \
-      libgl1-mesa-glx && \
+      ros-dev-tools && \
     apt-get clean
+
+# Install Mesa Drivers for Gazebo
+RUN apt-get update && \
+  apt-get upgrade -y && \
+  apt-get install -y \
+    mesa-utils \
+    libgl1-mesa-glx && \
+  apt-get clean
 
 # Setup environment variables
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.profile && \
@@ -82,8 +88,9 @@ RUN echo "source /opt/ros/humble/setup.bash" >> ~/.profile && \
     echo "export EUFS_MASTER=/root/ros2_ws/src/utsma-sim-2/" >> ~/.profile
 
 # Set QT Display env Variables
-RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.profile && \
-    echo "export QMLSCENE_DEVICE=softwarecontext" >> ~/.profile
+RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.profile 
+#&& \
+    #echo "export QMLSCENE_DEVICE=softwarecontext" >> ~/.profile
     # && \
     #echo "export LIBGL_ALWAYS_INDIRECT=y" >> ~/.profile 
 # ^^^ THIS MAY DISABLE HW ACCELERATION
