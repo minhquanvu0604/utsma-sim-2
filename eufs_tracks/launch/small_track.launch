@@ -29,7 +29,7 @@
   <!-- The robot urdf used in sim -->
   <arg name="robot_name" default="eufs"/>
   <!-- The vehicle model config file -->
-  <arg name="vehicleModelConfig"/>
+  <arg name="vehicleModelConfig" default="configDry.yaml"/>
   <!-- Publish the ground truth tf -->
   <arg name="publish_gt_tf" default="false"/>
   <arg name="pub_ground_truth" default="true"/>
@@ -65,7 +65,7 @@
     <arg name="show_rqt_gui" value="$(var show_rqt_gui)"/>
     <arg name="rviz" value="$(var rviz)"/>
     <arg name="publish_gt_tf" value="$(var publish_gt_tf)"/>
-    <arg name="pub_ground_truth" value="$(var pub_ground)truth)"/>
+    <arg name="pub_ground_truth" value="$(var pub_ground_truth)"/>
     <arg name="launch_group" value="$(var launch_group)"/>
   </include>
 
