@@ -188,15 +188,15 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('rviz'))
         ),
 
-        Node(
-            name='eufs_sim_rqt',
-            package='rqt_gui',
-            executable='rqt_gui',
-            output='screen',
-            arguments=['--force-discover', '--perspective-file',
-                       str(rqt_perspective_file)],
-            condition=IfCondition(LaunchConfiguration('show_rqt_gui'))
-        ),
+        # Node(
+        #     name='eufs_sim_rqt',
+        #     package='rqt_gui',
+        #     executable='rqt_gui',
+        #     output='screen',
+        #     arguments=['--force-discover', '--perspective-file',
+        #                str(rqt_perspective_file)],
+        #     condition=IfCondition(LaunchConfiguration('show_rqt_gui'))
+        # ),
 
         # Spawn the car!!!
         OpaqueFunction(function=spawn_car)
