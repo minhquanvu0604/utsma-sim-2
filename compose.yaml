@@ -1,0 +1,78 @@
+services:
+#   # Ros Backend
+#   ros_humble_pfms_container:
+#     image: ros-humble-pfms:latest
+#     volumes:
+#       - .:/root/ros2_ws/src
+#     environment:
+#       - DISPLAY=host.docker.internal:0.0
+#     working_dir: /root/ros2_ws
+    # Yaml Block to enable GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # Simulation Container
+  utsma_demo_sim:
+    image: ros-humble-pfms:latest
+    privileged: true
+    tty: true
+    stdin_open: true
+    working_dir: /root/ros2_ws
+    volumes:
+      - .:/root/ros2_ws/src/utsma-sim-2
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev
+    devices:
+      - "/dev/dri:/dev/dri"
+    # networks:
+    #   - host
+    user: root:root
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - LIBGL_ALWAYS_SOFTWARE=1
+      #- MESA_GL_VERSION_OVERRIDE=3.3
+      - LIBGL_ALWAYS_INDIRECT=1
+      #- QT_X11_NO_MITSHM=1
+      - QT_DEBUG_PLUGINS=1                          # For debugging
+    command: sudo -i bash -c 'export LIBGL_ALWAYS_INDIRECT=1 && export DISPLAY=host.docker.internal:0 && export LIBGL_ALWAYS_SOFTWARE=1 && export QT_DEBUG_PLUGINS=1 && rosdep install --from-paths . --ignore-src -r -y && colcon build --symlink-install && source install/setup.bash && ros2 launch eufs_launcher eufs_launcher.launch.py'
+    # May be able to run rosedep command outside of the container
+    
+    #  x11-apps
+
+    # "ros2 launch eufs_launcher eufs_launcher.launch.py && ros2 launch utsma_gazebo simulation.launch"
+# Already added in container image on image build
+# bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash"
+
+
+
+  # # Path Planning Container
+  # utsma_demo_path_planning:
+  #   image: ros-humble-pfms:latest
+  #   privileged: true
+  #   networks:
+  #     - host
+  #   environment:
+  #     - ROS_MASTER_URI=http://localhost:11311
+  #     - DISPLAY=host.docker.internal:0.0
+  #   command: bash -c "source /opt/ros/noetic/setup.bash && source /utsma_ws/devel/setup.bash && sleep 10 && rosrun d_triang utsma_path_planner"
+
+  # # Code Viewer Container
+  # utsma_demo_code_viewer:
+  #   image: ros-humble-pfms:latest
+  #   privileged: true
+  #   networks:
+  #     - host
+  #   environment:
+  #     - ROS_MASTER_URI=http://localhost:11311
+  #     - DISPLAY=host.docker.internal:0.0
+  #   command: bash -c "sleep infinity"
+
+networks:
+  host:
+    name: host
+    external: true

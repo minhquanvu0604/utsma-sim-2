@@ -1,0 +1,33 @@
+FROM arm64v8/ubuntu:22.04 as base
+
+# Set the environment variables for non-interactive installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    locales \
+    gnupg2 \
+    lsb-release \
+    curl \
+    && locale-gen en_US en_US.UTF-8 \
+    && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
+    && export LANG=en_US.UTF-8
+
+# Set up the locale
+ENV LANG en_US.UTF-8
+
+# Add the ROS 2 apt repository
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F42ED6FBAB17C654 \
+    && echo "deb [arch=amd64,arm64,armhf] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2-latest.list
+
+# Install ROS 2 Humble
+RUN apt-get update && apt-get install -y \
+    ros-humble-desktop \
+    && apt-get clean
+
+# Install additional ROS 2 dependencies
+RUN apt-get update && apt-get install -y \
+    python3-rosdep \
+    python3-colcon-common-extensions \
+    && rosdep init \
+    && rosdep update
