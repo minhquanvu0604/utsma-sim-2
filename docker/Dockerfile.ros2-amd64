@@ -1,0 +1,29 @@
+FROM osrf/ros:humble-desktop-full
+
+# Now install all required tools and packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    python3-colcon-common-extensions \
+    python3-colcon-mixin \
+    python3-rosdep \
+    python3-vcstool
+
+# Install Gazebo classic and all deps
+RUN apt install -y ros-humble-gazebo*
+
+# Create workspace
+RUN mkdir -p /root/utsma_sim_ws/src/utsma-sim-2
+COPY . /root/utsma_sim_ws/src/utsma-sim-2/
+
+# Build workspace
+ENV EUFS_MASTER='/root/utsma_sim_ws/src/utsma-sim-2'
+RUN rosdep update && \
+    rosdep install --from-paths '/root/utsma_sim_ws/src/utsma-sim-2' --ignore-src -r -y
+
+WORKDIR /root/utsma_sim_ws
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build --symlink-install"
+
+# Reset the frontend (optional, good practice)
+ENV DEBIAN_FRONTEND=dialog
