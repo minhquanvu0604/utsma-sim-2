@@ -93,6 +93,8 @@ void GazeboConeGroundTruth::Load(gazebo::physics::ModelPtr _parent, sdf::Element
         this->rosnode_->create_publisher<eufs_msgs::msg::ConeArrayWithCovariance>(topic_name_, 1);
   }
 
+  cone_pub_ = this->rosnode_->create_publisher<utsma_msgs::msg::ConeArrayWithCovariance>("ground_truth_cones_utsma", 1);
+
   // Ground truth cone marker publisher
   if (!_sdf->HasElement("groundTruthConeMarkersTopicName")) {
     RCLCPP_FATAL(
@@ -233,11 +235,15 @@ void GazeboConeGroundTruth::UpdateChild() {
 
   eufs_msgs::msg::ConeArrayWithCovariance ground_truth_cones_message =
       processCones(cone_arrays_message);
+  
+  utsma_msgs::msg::ConeArrayWithCovariance cone_msg = processConesUTSMA(ground_truth_cones_message);
 
   // Publish the ground truth cones if it has subscribers and is allowed to publish
   if (this->ground_truth_cone_pub_->get_subscription_count() > 0 && pub_ground_truth) {
     this->ground_truth_cone_pub_->publish(ground_truth_cones_message);
   }
+
+  cone_pub_->publish(cone_msg);
 
   // Publish the ground truth cone markers if it has subscribers and is allowed to publish
   if (this->ground_truth_cone_marker_pub_->get_subscription_count() > 0 && pub_ground_truth) {
@@ -391,6 +397,35 @@ eufs_msgs::msg::ConeArrayWithCovariance GazeboConeGroundTruth::processCones(
   cones.big_orange_cones = new_big_orange;
   cones.unknown_color_cones = new_unknown;
 
+  return cones;
+}
+
+utsma_msgs::msg::ConeArrayWithCovariance GazeboConeGroundTruth::processConesUTSMA(
+    eufs_msgs::msg::ConeArrayWithCovariance cones_to_process) {
+  utsma_msgs::msg::ConeArrayWithCovariance cones;
+  std::vector<utsma_msgs::msg::ConeWithCovariance> new_blue;
+
+  // Blue cones
+  for (const auto& eufs_blue_cone : cones_to_process.blue_cones) {
+    utsma_msgs::msg::ConeWithCovariance utsma_blue_cone;
+    utsma_blue_cone.point = eufs_blue_cone.point;
+    utsma_blue_cone.covariance = eufs_blue_cone.covariance;
+    cones.blue_cones.push_back(utsma_blue_cone);
+  }
+
+  // Yellow cones
+  std::vector<utsma_msgs::msg::ConeWithCovariance> new_yellow;
+  for (const auto& eufs_yellow_cone : cones_to_process.yellow_cones) {
+    utsma_msgs::msg::ConeWithCovariance utsma_yellow_cone;
+    utsma_yellow_cone.point = eufs_yellow_cone.point;
+    utsma_yellow_cone.covariance = eufs_yellow_cone.covariance;
+    cones.yellow_cones.push_back(utsma_yellow_cone);
+  }
+
+  std::vector<utsma_msgs::msg::ConeWithCovariance> new_orange;
+  std::vector<utsma_msgs::msg::ConeWithCovariance> new_big_orange;
+  std::vector<utsma_msgs::msg::ConeWithCovariance> new_unknown;
+  std::vector<utsma_msgs::msg::ConeWithCovariance> color, no_color;
   return cones;
 }
 

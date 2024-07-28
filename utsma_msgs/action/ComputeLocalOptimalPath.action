@@ -1,0 +1,26 @@
+#goal definition
+string planner_id
+bool run_indefinitely # For testing default to false
+bool use_global_path
+builtin_interfaces/Duration run_time  # If run_indefinitely is True, this field is ignored
+nav_msgs/Path global_path # Optionally a global path may be included to support the planning process of the local path
+
+---
+#result definition
+
+uint16 NONE=0
+uint16 UNKNOWN=300
+uint16 INVALID_PLANNER=301
+uint16 TF_ERROR=302
+uint16 TIMEOUT=303
+uint16 MISSING_RUN_TIME=304
+uint16 NO_VISIBLE_CONE=305
+
+std_msgs/Empty result
+uint16 error_code
+string message
+
+---
+#feedback definition
+nav_msgs/Path local_path
+builtin_interfaces/Duration planning_time

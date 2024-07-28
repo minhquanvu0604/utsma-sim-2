@@ -1,0 +1,34 @@
+# State of the Autonomous System
+uint8 AS_OFF=0
+uint8 AS_READY=1
+uint8 AS_DRIVING=2
+uint8 AS_EMERGENCY_BRAKE=3
+uint8 AS_FINISHED=4
+uint8 AS_UNKNOWN=5
+
+uint8 as_state
+
+# Mission indicator
+uint8 AMI_NOT_SELECTED=10
+uint8 AMI_ACCELERATION=11
+uint8 AMI_SKIDPAD=12
+uint8 AMI_AUTOCROSS=13
+uint8 AMI_TRACK_DRIVE=14
+uint8 AMI_AUTONOMOUS_DEMO=15
+uint8 AMI_ADS_INSPECTION=16
+uint8 AMI_ADS_EBS=17
+uint8 AMI_DDT_INSPECTION_A=18
+uint8 AMI_DDT_INSPECTION_B=19
+uint8 AMI_JOYSTICK=20
+uint8 AMI_MANUAL=21
+uint8 AMI_UNKNOWN=22
+
+uint8 ami_state
+
+# EBS state
+uint8 EBS_UNAVAILABLE=40
+uint8 EBS_ARMED=41
+uint8 EBS_ACTIVATED=42
+
+uint8 ebs_state
+
