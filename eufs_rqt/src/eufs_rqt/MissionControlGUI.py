@@ -51,16 +51,7 @@ class MissionControlGUI(Plugin):
 
         # Autonomous missions
         self.missions = {CanState.AMI_NOT_SELECTED: "NOT_SELECTED",
-                         CanState.AMI_ACCELERATION: "ACCELERATION",
-                         CanState.AMI_SKIDPAD: "SKIDPAD",
-                         CanState.AMI_AUTOCROSS: "AUTOCROSS",
-                         CanState.AMI_TRACK_DRIVE: "TRACK_DRIVE",
-                         CanState.AMI_AUTONOMOUS_DEMO: "AUTONOMOUS_DEMO",
-                         CanState.AMI_ADS_INSPECTION: "ADS_INSPECTION",
-                         CanState.AMI_ADS_EBS: "ADS_EBS",
-                         CanState.AMI_DDT_INSPECTION_A: "DDT_INSPECTION_A",
-                         CanState.AMI_DDT_INSPECTION_B: "DDT_INSPECTION_B",
-                         CanState.AMI_JOYSTICK: "JOYSTICK",
+                         CanState.AMI_PID_TEST: "PID_TEST",
                          }
 
         for mission in self.missions.values():

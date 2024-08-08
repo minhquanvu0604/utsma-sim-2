@@ -79,35 +79,8 @@ bool StateMachine::setMission(std::shared_ptr<eufs_msgs::srv::SetCanState::Reque
   }
 
   switch (request->ami_state) {
-    case eufs_msgs::msg::CanState::AMI_ACCELERATION:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_ACCELERATION;
-      break;
-    case eufs_msgs::msg::CanState::AMI_SKIDPAD:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_SKIDPAD;
-      break;
-    case eufs_msgs::msg::CanState::AMI_AUTOCROSS:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_AUTOCROSS;
-      break;
-    case eufs_msgs::msg::CanState::AMI_TRACK_DRIVE:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_TRACK_DRIVE;
-      break;
-    case eufs_msgs::msg::CanState::AMI_AUTONOMOUS_DEMO:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_AUTONOMOUS_DEMO;
-      break;
-    case eufs_msgs::msg::CanState::AMI_ADS_INSPECTION:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_ADS_INSPECTION;
-      break;
-    case eufs_msgs::msg::CanState::AMI_ADS_EBS:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_ADS_EBS;
-      break;
-    case eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_A:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_A;
-      break;
-    case eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_B:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_B;
-      break;
-    case eufs_msgs::msg::CanState::AMI_JOYSTICK:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_JOYSTICK;
+    case eufs_msgs::msg::CanState::AMI_PID_TEST:
+      ami_state_ = eufs_msgs::msg::CanState::AMI_PID_TEST;
       break;
     case eufs_msgs::msg::CanState::AMI_MANUAL:
       ami_state_ = eufs_msgs::msg::CanState::AMI_MANUAL;
@@ -241,35 +214,8 @@ std_msgs::msg::String StateMachine::makeStateString(const eufs_msgs::msg::CanSta
     case eufs_msgs::msg::CanState::AMI_NOT_SELECTED:
       str2 = "AMI:NOT_SELECTED";
       break;
-    case eufs_msgs::msg::CanState::AMI_ACCELERATION:
-      str2 = "AMI:ACCELERATION";
-      break;
-    case eufs_msgs::msg::CanState::AMI_SKIDPAD:
-      str2 = "AMI:SKIDPAD";
-      break;
-    case eufs_msgs::msg::CanState::AMI_AUTOCROSS:
-      str2 = "AMI:AUTOCROSS";
-      break;
-    case eufs_msgs::msg::CanState::AMI_TRACK_DRIVE:
-      str2 = "AMI:TRACKDRIVE";
-      break;
-    case eufs_msgs::msg::CanState::AMI_ADS_INSPECTION:
-      str2 = "AMI:ADS_INSPECTION";
-      break;
-    case eufs_msgs::msg::CanState::AMI_ADS_EBS:
-      str2 = "AMI:ADS_EBS";
-      break;
-    case eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_A:
-      str2 = "AMI:DDT_INSPECTION_A";
-      break;
-    case eufs_msgs::msg::CanState::AMI_DDT_INSPECTION_B:
-      str2 = "AMI:DDT_INSPECTION_B";
-      break;
-    case eufs_msgs::msg::CanState::AMI_AUTONOMOUS_DEMO:
-      str2 = "AMI:BRAKETEST";
-      break;
-    case eufs_msgs::msg::CanState::AMI_JOYSTICK:
-      str2 = "AMI:JOYSTICK";
+    case eufs_msgs::msg::CanState::AMI_PID_TEST:
+      str2 = "AMI:PID_TEST";
       break;
     case eufs_msgs::msg::CanState::AMI_MANUAL:
       str2 = "AMI:MANUAL";
