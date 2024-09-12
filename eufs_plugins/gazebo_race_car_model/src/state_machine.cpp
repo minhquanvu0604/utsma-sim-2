@@ -82,6 +82,9 @@ bool StateMachine::setMission(std::shared_ptr<eufs_msgs::srv::SetCanState::Reque
     case eufs_msgs::msg::CanState::AMI_PID_TEST:
       ami_state_ = eufs_msgs::msg::CanState::AMI_PID_TEST;
       break;
+    case eufs_msgs::msg::CanState::AMI_POINT_MPC:
+      ami_state_ = eufs_msgs::msg::CanState::AMI_POINT_MPC;
+      break;
     case eufs_msgs::msg::CanState::AMI_MANUAL:
       ami_state_ = eufs_msgs::msg::CanState::AMI_MANUAL;
       break;
