@@ -61,6 +61,8 @@
 
 // ROS  srvs
 #include <std_srvs/srv/trigger.hpp>
+#include <utsma_msgs/msg/cone_array_with_covariance.hpp>
+#include <utsma_msgs/msg/cone_with_covariance.hpp>
 
 namespace gazebo_plugins {
 namespace eufs_plugins {
@@ -84,6 +86,9 @@ class GazeboConeGroundTruth : public gazebo::ModelPlugin {
 
   eufs_msgs::msg::ConeArrayWithCovariance processCones(
       eufs_msgs::msg::ConeArrayWithCovariance cones_to_process);
+  
+  utsma_msgs::msg::ConeArrayWithCovariance processConesUTSMA(
+    eufs_msgs::msg::ConeArrayWithCovariance cones_to_process);
 
   std::pair<std::vector<eufs_msgs::msg::ConeWithCovariance>,
             std::vector<eufs_msgs::msg::ConeWithCovariance>>
@@ -153,9 +158,12 @@ class GazeboConeGroundTruth : public gazebo::ModelPlugin {
 
   rclcpp::Publisher<eufs_msgs::msg::ConeArrayWithCovariance>::SharedPtr ground_truth_track_pub_;
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr ground_truth_track_viz_pub_;
-
+\
   rclcpp::Publisher<eufs_msgs::msg::ConeArrayWithCovariance>::SharedPtr perception_cone_pub_;
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr perception_cone_marker_pub_;
+
+  // Specifically for utsma
+  rclcpp::Publisher<utsma_msgs::msg::ConeArrayWithCovariance>::SharedPtr cone_pub_;
 
   // Services
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr

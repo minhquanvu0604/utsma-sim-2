@@ -33,11 +33,12 @@ For installation, setup, and initial launching, refer to the [Getting Started Gu
 
 ### General Installation Steps
 
+- Install docker and nvidia container toolkit
 - make sure docker daemon is running
 - run `sudo docker build -t ros-humble-pfms:latest -f 'docker/Dockerfile.ros-humble-pfms.amd64' .`
 - run `sudo docker compose up -d`
 
-### MacOS Installation Steps
+### MacOS Installation Steps (NOT WORKING)
 
 - make sure docker daemon is running
 - install XQuartz
@@ -50,8 +51,8 @@ For installation, setup, and initial launching, refer to the [Getting Started Gu
   - xhost +local:root
   - xhost si:localuser:root
   - xhost + 127.0.0.1
-- run `sudo docker build -t ros-humble-pfms:latest -f 'docker/Dockerfile.ros-humble-pfms.amd64' .`
-- run `sudo docker compose up -d`
+- run `sudo -E docker build -t ros-humble-pfms:latest -f 'docker/Dockerfile.ros-humble-pfms.amd64' .`
+- run `sudo -E docker compose up -d`
 
 ### commands for when container is running
 

@@ -1,0 +1,23 @@
+{
+    "python.autoComplete.extraPaths": [
+        "eufs_launcher/lib/python3.10/site-packages",
+        "eufs_tracks/lib/python3.10/site-packages",
+        "eufs_rqt/lib/python3.10/site-packages",
+        "eufs_racecar/lib/python3.10/site-packages",
+        "eufs_msgs/local/lib/python3.10/dist-packages",
+        "ackermann_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "eufs_launcher/lib/python3.10/site-packages",
+        "eufs_tracks/lib/python3.10/site-packages",
+        "eufs_rqt/lib/python3.10/site-packages",
+        "eufs_racecar/lib/python3.10/site-packages",
+        "eufs_msgs/local/lib/python3.10/dist-packages",
+        "ackermann_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "cmake.sourceDirectory": "/home/marcuskarozis/Documents/Stuff/git/utsma-sim-2/path_planning_v2"
+}
