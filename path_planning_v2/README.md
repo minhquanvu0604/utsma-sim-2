@@ -29,3 +29,6 @@ This package is a path planning package for UTSMA
 ### tracklimit vector derivation
 
 - optimise so that the bst isnt recreated every time and is intead updated
+- improve scanArea function to be more accurate and robust
+- improve cone likelihood scoring to search more than depth 1
+- check for loop closure in the track limit vector derivation

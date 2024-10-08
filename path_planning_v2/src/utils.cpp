@@ -1,4 +1,6 @@
 #include <cmath>
+#include <iostream>
+#include <vector>
 
 namespace path_planner
 {
@@ -10,6 +12,9 @@ namespace path_planner
     // predicted future cone pos config
     double pred_future_cone_range = 3.0;
     double pred_future_cone_arc = 45.0;
+
+    // loop closure margin of error config
+    double loop_closure_MOE = 0.5;
 
     // point struct
     struct point
@@ -57,6 +62,22 @@ namespace path_planner
                 double angle = angleBetweenCones(*this, prev_cone);
                 
             }
+
+            // a function to scans area in front of cone based on parameters to find subsequent cones
+            std::vector<Cone> scanArea(std::vector<Cone> cones, double range, double arc)
+            {
+                std::vector<Cone> cones_in_range;
+                for (int i = 0; i < cones.size(); i++)
+                {
+                    double distance = distanceBetweenCones(*this, cones[i]);
+                    double angle = angleBetweenCones(*this, cones[i]);
+                    if (distance < range && angle < arc)
+                    {
+                        cones_in_range.push_back(cones[i]);
+                    }
+                }
+                return cones_in_range;
+            }
     };
 
     // Cone BST Class
@@ -68,6 +89,7 @@ namespace path_planner
                 Cone cone;
                 Node *left;
                 Node *right;
+                bool finalNode=false;
             };
 
             Node *root;
@@ -202,6 +224,18 @@ namespace path_planner
                 }
             }
 
+            // checks to see if the last node in the ConeBST is close to the root node in the ConeBST based on Closure MOE
+            void BST_loop_closure()
+            {
+                Node *leftMax = findMax(root);
+                Node *rightMax = findMin(root);
+                if (distanceBetweenCones(leftMax->cone, rightMax->cone) < loop_closure_MOE)
+                {
+                    leftMax->finalNode = true;
+                    rightMax->finalNode = true;
+                }
+            }
+
         public:
             ConeBST()
             {
@@ -286,6 +320,15 @@ namespace path_planner
                 }
                 std::cout << std::endl;
             }
+
+            // checks to see if the last point in the path is close to the first point in the path based on Closure MOE
+            void loop_closure()
+            {
+                if (distanceBetweenPoints(path[0], path[path.size() - 1]) < loop_closure_MOE)
+                {
+                    path.push_back(path[0]);
+                }
+            }
     };
 
 
@@ -294,6 +337,14 @@ namespace path_planner
     {
         double dx = cone2.getPos().x - cone1.getPos().x;
         double dy = cone2.getPos().y - cone1.getPos().y;
+        return std::sqrt(dx * dx + dy * dy);
+    }
+
+    // return the distance between two points as a double
+    double distanceBetweenPoints(point p1, point p2)
+    {
+        double dx = p2.x - p1.x;
+        double dy = p2.y - p1.y;
         return std::sqrt(dx * dx + dy * dy);
     }
 
@@ -372,6 +423,27 @@ namespace path_planner
             }
         }
         return cones[closest_cone];
+    }
+
+    // a function that evaluates a score for the likeliness and accuracy of a cone being the next cone in the track limit vector based on accuracy score, straightness, and distance
+    double evaluateConeScore(Cone cone, Cone prev_cone)
+    {
+        double distance = distanceBetweenCones(cone, prev_cone);
+        double angle = angleBetweenCones(cone, prev_cone);
+        double score = 0;
+        if (distance < 1)
+        {
+            score += 0.5;
+        }
+        if (angle < 10)
+        {
+            score += 0.3;
+        }
+        if (cone.getPos().x > prev_cone.getPos().x)
+        {
+            score += 0.2;
+        }
+        return score;
     }
 
 }

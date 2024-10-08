@@ -76,19 +76,52 @@ namespace path_planner
         {
             // get the max element in the left track limit BST
             Cone leftMax = leftTrackLimit.findMax();
+            std::vector<Cone> leftVectorNextCandidates = leftMax.scanArea(confirmed_cones, pred_future_cone_range, pred_future_cone_arc);
+            if (leftVectorNextCandidates.size() == 1)
+            {
+                leftTrackLimit.insert(leftVectorNextCandidates[0]);
+            }
+            else if (leftVectorNextCandidates.size() > 1)
+            {
+                double maxScore = 0;
+                int maxIndex = 0;
+                for (int i = 0; i < leftVectorNextCandidates.size(); i++)
+                {
+                    double score = evaluateConeScore(leftVectorNextCandidates[i],leftMax);
+                    if (score > maxScore)
+                    {
+                        maxScore = score;
+                        maxIndex = i;
+                    }
+                }
+                leftTrackLimit.insert(leftVectorNextCandidates[maxIndex]);
+            }
 
             // get the max element in the right track limit BST
             Cone rightMax = rightTrackLimit.findMax();
-
-
+            std::vector<Cone> rightVectorNextCandidates = rightMax.scanArea(confirmed_cones, pred_future_cone_range, pred_future_cone_arc);
+            if (rightVectorNextCandidates.size() == 1)
+            {
+                rightTrackLimit.insert(rightVectorNextCandidates[0]);
+            }
+            else if (rightVectorNextCandidates.size() > 1)
+            {
+                double maxScore = 0;
+                int maxIndex = 0;
+                for (int i = 0; i < rightVectorNextCandidates.size(); i++)
+                {
+                    double score = evaluateConeScore(rightVectorNextCandidates[i],rightMax);
+                    if (score > maxScore)
+                    {
+                        maxScore = score;
+                        maxIndex = i;
+                    }
+                }
+                rightTrackLimit.insert(rightVectorNextCandidates[maxIndex]);
+            }
         }
 
         return {leftTrackLimit, rightTrackLimit};
-    }
-    //
-    void loop_closure(Path open_loop)
-    {
-
     }
 
     // a function that from the left and the right track limits, derive the midline of the track
