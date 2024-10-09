@@ -27,7 +27,7 @@ namespace path_planner
         rclcpp::init(argc, argv);
         auto node = rclcpp::Node::make_shared("path_planner");
         cones = compare_cones(newDetections, cones);
-        std::vector<ConeBST> tlVector = track_limit_derivation(cones);
+        std::vector<ConePath> tlVector = track_limit_derivation(cones);
     }
 
     // Function to compare new con positions to historical cone positions
@@ -64,7 +64,7 @@ namespace path_planner
     }
     
     // a function to derive the left and right track limits from the confirmed cones
-    std::vector<ConeBST> track_limit_derivation(std::vector<Cone> confirmed_cones)
+    std::vector<ConePath> track_limit_derivation(std::vector<Cone> confirmed_cones)
     {
         ConeBST leftTrackLimit;
         ConeBST rightTrackLimit;
@@ -121,13 +121,43 @@ namespace path_planner
             }
         }
 
-        return {leftTrackLimit, rightTrackLimit};
+        return {leftTrackLimit.outputToPath(), rightTrackLimit.outputToPath()};
     }
 
     // a function that from the left and the right track limits, derive the midline of the track
-    Path midline_derivation(ConeBST tlLeft, ConeBST tlRight)
+    Path midline_derivation(ConePath tlLeft, ConePath tlRight)
     {
-        
+
+        Path midline = Path(midpoint(tlLeft.getCone(0).getPos(), tlRight.getCone(0).getPos()));
+
+        tlLeft.removeCone(tlLeft.getCone(0));
+        tlRight.removeCone(tlRight.getCone(0));
+
+        bool checkSide = false; // false for left, true for right
+
+        while(true)
+        {
+            if (checkSide)
+            {
+                Cone rCone = closestOppositeCone(tlLeft.getCone(0), tlRight);
+                midline.addPoint(midpoint(tlLeft.getCone(0).getPos(), rCone.getPos()));
+                tlLeft.removeCone(tlLeft.getCone(0));
+            }
+            else
+            {
+                Cone lCone = closestOppositeCone(tlRight.getCone(0), tlLeft);
+                midline.addPoint(midpoint(lCone.getPos(), tlRight.getCone(0).getPos()));
+                tlRight.removeCone(tlRight.getCone(0));
+            }
+            if (tlLeft.size() == 0 || tlRight.size() == 0)
+            {
+                break;
+            }
+        }
+
+        midline.loop_closure();
+
+        return midline;
     }
 
     // a function that from the left and the right track limits and the midline of the track, derive the raceline

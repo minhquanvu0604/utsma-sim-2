@@ -204,7 +204,19 @@ namespace path_planner
                 inOrder(node->right);
             }
 
-            Node *find(Node *node, double x)
+            void toPath(Node *node, std::vector<Cone> &cones)
+            {
+                if (node == nullptr)
+                {
+                    return;
+                }
+
+                toPath(node->left, cones);
+                cones.push_back(node->cone);
+                toPath(node->right, cones);
+            }
+
+            Node *find(Node *node, double x) // NEED TO REWRITE THIS FUNCTION
             {
                 if (node == nullptr)
                 {
@@ -221,18 +233,6 @@ namespace path_planner
                 else
                 {
                     return node;
-                }
-            }
-
-            // checks to see if the last node in the ConeBST is close to the root node in the ConeBST based on Closure MOE
-            void BST_loop_closure()
-            {
-                Node *leftMax = findMax(root);
-                Node *rightMax = findMin(root);
-                if (distanceBetweenCones(leftMax->cone, rightMax->cone) < loop_closure_MOE)
-                {
-                    leftMax->finalNode = true;
-                    rightMax->finalNode = true;
                 }
             }
 
@@ -263,6 +263,13 @@ namespace path_planner
                 std::cout << std::endl;
             }
 
+            ConePath outputToPath()
+            {
+                std::vector<Cone> cones;
+                toPath(root, cones);
+                return ConePath(cones);
+            }
+
             Cone findMin()
             {
                 return findMin(root)->cone;
@@ -279,7 +286,7 @@ namespace path_planner
             }
     };
 
-    // A Class for storing a path to be used by the midline vector, and raceline vector
+    // A Class for storing a path of points to be used by the midline vector, and raceline vector
     class Path
     {
         private:
@@ -293,6 +300,11 @@ namespace path_planner
             Path(std::vector<point> path)
             {
                 this->path = path;
+            }
+            Path(point p)
+            {
+                path = std::vector<point>();
+                path.push_back(p);
             }
 
             void addPoint(point p)
@@ -326,6 +338,87 @@ namespace path_planner
             {
                 if (distanceBetweenPoints(path[0], path[path.size() - 1]) < loop_closure_MOE)
                 {
+                    removePoint(path.back());
+                    path.push_back(path[0]);
+                }
+            }
+    };
+
+    // A Class for storing a path of cones to be used by the track limit vectors
+    class ConePath
+    {
+        private:
+            std::vector<Cone> path;
+
+        public:
+            ConePath()
+            {
+                path = std::vector<Cone>();
+            }
+            ConePath(std::vector<Cone> path)
+            {
+                this->path = path;
+            }
+            ConePath(Cone c)
+            {
+                path = std::vector<Cone>();
+                path.push_back(c);
+            }
+
+            void addCone(Cone c)
+            {
+                path.push_back(c);
+            }
+
+            void removeCone(Cone c)
+            {
+                for (int i = 0; i < path.size(); i++)
+                {
+                    if (path[i].getPos().x == c.getPos().x && path[i].getPos().y == c.getPos().y)
+                    {
+                        path.erase(path.begin() + i);
+                        break;
+                    }
+                }
+            }
+
+            void display()
+            {
+                for (int i = 0; i < path.size(); i++)
+                {
+                    std::cout << "(" << path[i].getPos().x << ", " << path[i].getPos().y << ") ";
+                }
+                std::cout << std::endl;
+            }
+
+            int coneIndex(Cone c)
+            {
+                for (int i = 0; i < path.size(); i++)
+                {
+                    if (path[i].getPos().x == c.getPos().x && path[i].getPos().y == c.getPos().y)
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            Cone getCone(int index)
+            {
+                return path[index];
+            }
+
+            int size()
+            {
+                return path.size();
+            }
+
+            // checks to see if the last point in the path is close to the first point in the path based on Closure MOE
+            void loop_closure()
+            {
+                if (distanceBetweenCones(path[0], path[path.size() - 1]) < loop_closure_MOE)
+                {
+                    removeCone(path.back());
                     path.push_back(path[0]);
                 }
             }
@@ -444,6 +537,29 @@ namespace path_planner
             score += 0.2;
         }
         return score;
+    }
+
+    // a function that finds the closest cone from the opposite side TL Vector
+    Cone closestOppositeCone(Cone cone, ConePath oppositeTLVector)
+    {
+        double closest_distance = 1000000;
+        int closest_cone = 0;
+        for (int i = 0; i < oppositeTLVector.size(); i++)
+        {
+            double distance = distanceBetweenCones(cone, oppositeTLVector.getCone(i));
+            if (distance < closest_distance)
+            {
+                closest_distance = distance;
+                closest_cone = i;
+            }
+        }
+        return oppositeTLVector.getCone(closest_cone);
+    }
+
+    // a function that finds the midpont of two points
+    point midpoint(point p1, point p2)
+    {
+        return point{(p1.x + p2.x) / 2, (p1.y + p2.y) / 2};
     }
 
 }

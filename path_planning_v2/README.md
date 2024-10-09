@@ -20,7 +20,7 @@ This package is a path planning package for UTSMA
 
 ### midline derivation
 
-- 
+- optimise finding opposite cone so that it only checks cones immediatly infront and behinde opposite index
 
 ### raceline derivation
 
@@ -32,3 +32,5 @@ This package is a path planning package for UTSMA
 - improve scanArea function to be more accurate and robust
 - improve cone likelihood scoring to search more than depth 1
 - check for loop closure in the track limit vector derivation
+- BST should only be used for track limit derivation and finding likely paths, track limits should otherwise be stored in a vector or path object
+- create function to convert BST to path object
