@@ -82,8 +82,11 @@ bool StateMachine::setMission(std::shared_ptr<eufs_msgs::srv::SetCanState::Reque
     case eufs_msgs::msg::CanState::AMI_PID_TEST:
       ami_state_ = eufs_msgs::msg::CanState::AMI_PID_TEST;
       break;
-    case eufs_msgs::msg::CanState::AMI_POINT_MPC:
-      ami_state_ = eufs_msgs::msg::CanState::AMI_POINT_MPC;
+    case eufs_msgs::msg::CanState::AMI_MPC_KINEMATIC:
+      ami_state_ = eufs_msgs::msg::CanState::AMI_MPC_KINEMATIC;
+      break;
+    case eufs_msgs::msg::CanState::AMI_MPC_DYNAMIC:
+      ami_state_ = eufs_msgs::msg::CanState::AMI_MPC_DYNAMIC;
       break;
     case eufs_msgs::msg::CanState::AMI_MANUAL:
       ami_state_ = eufs_msgs::msg::CanState::AMI_MANUAL;
@@ -219,6 +222,12 @@ std_msgs::msg::String StateMachine::makeStateString(const eufs_msgs::msg::CanSta
       break;
     case eufs_msgs::msg::CanState::AMI_PID_TEST:
       str2 = "AMI:PID_TEST";
+      break;
+    case eufs_msgs::msg::CanState::AMI_MPC_KINEMATIC:
+      str2 = "AMI:MPC_KINEMATIC";
+      break;  
+    case eufs_msgs::msg::CanState::AMI_MPC_DYNAMIC:
+      str2 = "AMI:MPC_DYNAMIC";
       break;
     case eufs_msgs::msg::CanState::AMI_MANUAL:
       str2 = "AMI:MANUAL";

@@ -52,7 +52,8 @@ class MissionControlGUI(Plugin):
         # Autonomous missions
         self.missions = {CanState.AMI_NOT_SELECTED: "NOT_SELECTED",
                          CanState.AMI_PID_TEST: "PID_TEST",
-                         CanState.AMI_POINT_MPC: "POINT_MODEL_MPC"
+                         CanState.AMI_MPC_KINEMATIC: "MPC_KINEMATIC",
+                         CanState.AMI_MPC_DYNAMIC: "MPC_DYNAMIC"
                          }
 
         for mission in self.missions.values():
