@@ -28,6 +28,8 @@ namespace path_planner
         auto node = rclcpp::Node::make_shared("path_planner");
         cones = compare_cones(newDetections, cones);
         std::vector<ConePath> tlVector = track_limit_derivation(cones);
+        Path midline = midline_derivation(tlVector[0], tlVector[1]);
+        Path raceline = raceline_derivation(tlVector[0], tlVector[1], midline);
     }
 
     // Function to compare new con positions to historical cone positions
@@ -161,8 +163,8 @@ namespace path_planner
     }
 
     // a function that from the left and the right track limits and the midline of the track, derive the raceline
-    Path raceline_derivation(ConeBST tlLeft, ConeBST tlRight, Path midline)
+    Path raceline_derivation(ConePath tlLeft, ConePath tlRight, Path midline)
     {
-
+        return midline;
     }
 }

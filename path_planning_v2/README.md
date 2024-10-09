@@ -14,9 +14,6 @@ This package is a path planning package for UTSMA
 - cone_detection_MOE_rate
 - move cone pos validity checking to TL Vector derivation function
 
-### loop closure
-
-- 
 
 ### midline derivation
 
@@ -24,7 +21,8 @@ This package is a path planning package for UTSMA
 
 ### raceline derivation
 
-- 
+- delayed until rest of program is working
+- currently just returns midline
 
 ### tracklimit vector derivation
 
