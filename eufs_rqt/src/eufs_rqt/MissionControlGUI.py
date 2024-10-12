@@ -52,13 +52,10 @@ class MissionControlGUI(Plugin):
         # Autonomous missions
         self.missions = {CanState.AMI_NOT_SELECTED: "NOT_SELECTED",
                          CanState.AMI_PID_TEST: "PID_TEST",
-<<<<<<< Updated upstream
-=======
                          CanState.AMI_MPC_KINEMATIC: "MPC_KINEMATIC",
                          CanState.AMI_MPC_DYNAMIC: "MPC_DYNAMIC",
                          CanState.AMI_MPC_CURV_KINEMATIC: "MPC_CURV_KINEMATIC",
                          CanState.AMI_MPC_CURV_DYNAMIC: "MPC_CURV_DYNAMIC"
->>>>>>> Stashed changes
                          }
 
         for mission in self.missions.values():
