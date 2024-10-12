@@ -12,6 +12,11 @@ uint16 ami_state
 
 uint16 AMI_NOT_SELECTED=10
 uint16 AMI_PID_TEST=11
+<<<<<<< Updated upstream
+=======
 uint16 AMI_MPC_KINEMATIC=12
 uint16 AMI_MPC_DYNAMIC=13
+uint16 AMI_MPC_CURV_KINEMATIC=14
+uint16 AMI_MPC_CURV_DYNAMIC=15
+>>>>>>> Stashed changes
 uint16 AMI_MANUAL=21
