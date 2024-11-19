@@ -8,15 +8,15 @@ FROM ros:humble-ros-core-jammy
 
 ################
 # Avoid user interactio with apt-get
-# ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # RUN sed -i 's/http:\/\/archive.ubuntu.com\/ubuntu\//http:\/\/mirror.internode.on.net\/pub\/ubuntu\/ubuntu\//' /etc/apt/sources.list
 
-# # Ensure all repositories are added and updated first
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     software-properties-common \
-#     curl && \
-#     add-apt-repository universe
+# Ensure all repositories are added and updated first
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    software-properties-common \
+    curl && \
+    add-apt-repository universe
 ################
 
 # Now install all required tools and packages
