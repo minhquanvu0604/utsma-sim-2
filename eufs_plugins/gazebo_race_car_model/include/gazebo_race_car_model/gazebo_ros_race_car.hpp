@@ -41,6 +41,7 @@
 #include "geometry_msgs/msg/twist_with_covariance.hpp"
 #include "geometry_msgs/msg/vector3.hpp"
 #include "nav_msgs/msg/odometry.hpp"
+#include "utsma_msgs/msg/vehicle_command_stamped.hpp"
 
 // ROS TF2
 #include <tf2/transform_datatypes.h>
@@ -144,9 +145,11 @@ class RaceCarModelPlugin : public gazebo::ModelPlugin {
   rclcpp::Publisher<eufs_msgs::msg::WheelSpeedsStamped>::SharedPtr _pub_wheel_speeds;
   rclcpp::Publisher<eufs_msgs::msg::WheelSpeedsStamped>::SharedPtr _pub_ground_truth_wheel_speeds;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr _pub_odom;
+  rclcpp::Publisher<utsma_msgs::msgs::VehicleState>::SharedPtr _vehicle_state_pub;
 
   // ROS Subscriptions
   rclcpp::Subscription<ackermann_msgs::msg::AckermannDriveStamped>::SharedPtr _sub_cmd;
+  rclcpp::Subscription<utsma_msgs::msg::VehicleCommandStamped>::SharedPtr _vehicle_cmd_sub;
 
   // ROS Services
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr _reset_vehicle_pos_srv;
