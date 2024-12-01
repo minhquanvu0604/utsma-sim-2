@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "${default}",
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "includePath": [
+                "eufs_models/include/**",
+                "eufs_msgs**",
+                "ackermann_msgs/**",
+                "eufs_models/include/**",
+                "/usr/include/**",
+                "${workspaceFolder}/**",
+                "/usr/local/include",
+                "/usr/include/c++/14",
+                "/opt/ros/humble/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
+}
