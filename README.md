@@ -25,6 +25,44 @@ The digram illustrates the hierarchy of launch files and xacro for robot descrip
 - `gazebo_cone_ground_truth`
 - `gazebo_race_car_model`
 
+- Install docker and nvidia container toolkit
+- make sure docker daemon is running
+- run `sudo docker build -t ros-humble-pfms:latest -f 'docker/Dockerfile.ros-humble-pfms.amd64' .`
+- run `sudo docker compose up -d`
+
+### MacOS Installation Steps (NOT WORKING)
+
+- make sure docker daemon is running
+- install XQuartz
+- defaults write org.xquartz.X11 enable_iglx -bool true
+- restart computer
+- start XQuartz
+- After installing XQuartz, start it and open the preferences (XQuartz > Preferences). Go to the "Security" tab and check "Allow connections from network clients".
+- Open a terminal and run the following commands (These commands need to be run every time XQuartz is started)
+  - export DISPLAY=:0
+  - xhost +local:root
+  - xhost si:localuser:root
+  - xhost + 127.0.0.1
+- run `sudo -E docker build -t ros-humble-pfms:latest -f 'docker/Dockerfile.ros-humble-pfms.amd64' .`
+- run `sudo -E docker compose up -d`
+
+### commands for when container is running
+
+- if you quit the application and dont want to restart the container use `ros2 launch eufs_launcher eufs_launcher.launch.py` to relaunch the application.
+
+## Packages
+
+This project contains a number of packages. The package READMEs supply information about the package API (launch parameters, ROS 2 publishers, subscribers and services).
+For information on the package design and usage guides see the [eufs_sim wiki](https://gitlab.com/eufs/eufs_sim/-/wikis/home).
+
+- [eufs_racecar](./eufs_racecar/README.md) : launch, resource and urdf files for the simulated vehicle.
+- [eufs_launcher](./eufs_launcher/README.md) : configures and launches the simulation.
+- [eufs_models](./eufs_models/README.md) : vehicle physics library.
+- [eufs_plugins](./eufs_plugins/README.md) : Gazebo plugins.
+- [eufs_tracks](./eufs_tracks/README.md) : track generator and resource files for the track.
+- [eufs_sensors](./eufs_sensors/README.md) : sensor mesh and urdf files.
+- [eufs_rqt](./eufs_rqt/README.md) : rqt GUI's for eufs_sim (currently mission control and robot steering).
+
 ## Dependencies
 - `Ubuntu 20.04 & ROS Noetic`
 - [`ackermann_msgs`](https://github.com/ros-drivers/ackermann_msgs) - branch master
@@ -34,6 +72,7 @@ The digram illustrates the hierarchy of launch files and xacro for robot descrip
 sudo apt install libcgal-dev
 ```
 - can_msgs (temp: for d_triang and simulation to communicate with can system)
+
 
 ## External Links
 UTSMA:

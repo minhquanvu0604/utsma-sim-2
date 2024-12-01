@@ -83,12 +83,17 @@ RUN apt-get update && \
 
 # Setup environment variables
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.profile && \
-    echo "export ROS_DISTRO=humble" >> ~/.profile && \
-    echo "export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11" >> ~/.profile && \
-    echo "export EUFS_MASTER=/root/ros2_ws/src/utsma-sim-2/" >> ~/.profile
+  echo "export ROS_DISTRO=humble" >> ~/.profile && \
+  echo "export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11" >> ~/.profile && \
+  echo "export EUFS_MASTER=/root/ros2_ws/src/utsma-sim-2/" >> ~/.profile && \
+  echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
+  echo "export ROS_DISTRO=humble" >> ~/.bashrc && \
+  echo "export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11" >> ~/.bashrc && \
+  echo "export EUFS_MASTER=/root/ros2_ws/src/utsma-sim-2/" >> ~/.bashrc
 
 # Set QT Display env Variables
-RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.profile 
+#RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.profile && \
+#  echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc 
 #&& \
     #echo "export QMLSCENE_DEVICE=softwarecontext" >> ~/.profile
     # && \
@@ -101,7 +106,8 @@ WORKDIR /root/ros2_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build --symlink-install"
 
 # Update .profile to source workspace setup file on every session
-RUN echo "source /root/ros2_ws/install/setup.bash" >> ~/.profile
+RUN echo "source /root/ros2_ws/install/setup.bash" >> ~/.profile && \
+  echo "source /root/ros2_ws/install/setup.bash" >> ~/.bashrc
 
 # Install ROS Dependancies (to be added when no longer in development)
 # RUN rosdep install --from-paths /root/ros2_ws/src/utsma-sim-2/ --ignore-src -r -y

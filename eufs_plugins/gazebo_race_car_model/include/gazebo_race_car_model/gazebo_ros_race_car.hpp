@@ -147,7 +147,6 @@ class RaceCarModelPlugin : public gazebo::ModelPlugin {
 
   // ROS Subscriptions
   rclcpp::Subscription<ackermann_msgs::msg::AckermannDriveStamped>::SharedPtr _sub_cmd;
-
   // ROS Services
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr _reset_vehicle_pos_srv;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr _command_mode_srv;

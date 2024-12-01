@@ -34,6 +34,7 @@
 
   <depend>eufs_models</depend>
   <depend>eufs_msgs</depend>
+  <depend>utsma_msgs</depend>
 
   <depend>ament_index_cpp</depend>
 

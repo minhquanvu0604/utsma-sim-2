@@ -36,6 +36,7 @@ find_package(visualization_msgs REQUIRED)
 find_package(eufs_models REQUIRED)
 find_package(ackermann_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
+find_package(utsma_msgs REQUIRED)
 
 link_directories(${gazebo_dev_LIBRARY_DIRS})
 
@@ -73,6 +74,7 @@ ament_export_dependencies(visualization_msgs)
 ament_export_dependencies(eufs_models)
 ament_export_dependencies(ackermann_msgs)
 ament_export_dependencies(ament_index_cpp)
+ament_export_dependencies(utsma_msgs)
 
 if(NOT WIN32)
   if(NOT APPLE)

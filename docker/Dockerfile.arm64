@@ -1,4 +1,4 @@
-FROM arm64v8/ubuntu:22.04 as base
+FROM ubuntu:22.04 as base
 
 # Set the environment variables for non-interactive installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     gnupg2 \
     lsb-release \
     curl \
+    gazebo \
     && locale-gen en_US en_US.UTF-8 \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
     && export LANG=en_US.UTF-8
@@ -23,11 +24,11 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F42ED6FBAB
 # Install ROS 2 Humble
 RUN apt-get update && apt-get install -y \
     ros-humble-desktop \
-    && apt-get clean
-
-# Install additional ROS 2 dependencies
-RUN apt-get update && apt-get install -y \
+    ros-humble-gazebo* \
     python3-rosdep \
     python3-colcon-common-extensions \
     && rosdep init \
     && rosdep update
+
+RUN mkdir -p /root/eufs_ws/src
+COPY . /root/eufs_ws/src/utsma-sim-2/
